@@ -1,0 +1,14 @@
+# Roblox place files are binary blobs — never commit them.
+# World geometry lives in place/HuntOrDie.rbxl, owned by Dev A only.
+*.rbxl
+*.rbxlx
+*.rbxl.lock
+*.rbxm
+
+# Rojo build output
+build/
+*.rbxl.bak
+
+# Editor
+.DS_Store
+Thumbs.db
