@@ -13,7 +13,7 @@ Full design lives in the Obsidian vault. Build order lives in
 
 ```powershell
 aftman install          # pins rojo, selene, stylua for both devs
-.uild.ps1             # generates place\HuntOrDie.rbxl from src/
+.\build.ps1             # generates place\HuntOrDie.rbxl from src/
 .\serve.ps1             # live-sync; leave running while you work
 ```
 
