@@ -11,16 +11,30 @@ Full design lives in the Obsidian vault. Build order lives in
 
 ## First-time setup
 
-```sh
-# 1. tools (aftman reads aftman.toml and pins versions for both devs)
-aftman install
-
-# 2. serve
-rojo serve
+```powershell
+aftman install          # pins rojo, selene, stylua for both devs
+.uild.ps1             # generates place\HuntOrDie.rbxl from src/
+.\serve.ps1             # live-sync; leave running while you work
 ```
 
-Then in Roblox Studio: open `place/HuntOrDie.rbxl`, install the Rojo plugin,
-and connect. Code now lives in Git. Studio is a viewport.
+Then in Studio: open `place\HuntOrDie.rbxl`, install the Rojo plugin, **Connect**.
+Press Play — output should read `[HuntOrDie] server up`.
+
+Code lives in Git. Studio is a viewport onto it.
+
+> `build.ps1` regenerates the place file and will refuse to overwrite an
+> existing one, because once Dev A puts geometry in there it is the only copy.
+> After that point use `serve.ps1` only.
+
+## Checks
+
+```powershell
+stylua src              # format (CI checks this)
+selene src              # lint
+rojo build -o build.rbxl  # proves the project still maps
+```
+
+CI runs all three on every push and PR.
 
 ## The rule that keeps this repo mergeable
 

@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ok-nick/setup-aftman@v0.4.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Format
+        run: stylua --check src
+
+      - name: Lint
+        run: selene src
+
+      # Proves the project still maps cleanly into a place file.
+      # Catches a broken default.project.json before anyone opens Studio.
+      - name: Build
+        run: rojo build -o build.rbxl

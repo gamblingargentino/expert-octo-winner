@@ -44,4 +44,22 @@ Config.HARVEST = {
 	exclusive = true, -- one harvester per corpse, server-enforced
 }
 
+--[[
+	Forward-spend shape. See 01 Design/Run Economy for the full A/B/C writeup.
+
+	Set to the vault's MVP recommendation: A, waypoint traders. Chosen because
+	it is the cheapest of the three to build and the easiest to delete — it
+	needs one NPC and a stock table, no crafting tree, no new verbs.
+
+	Expect to move to B (craft-and-consume) once the gate passes. If so, the
+	only thing that should have to change is this value and EconomyService.
+	If changing it turns out to touch anything else, the economy leaked.
+]]
+Config.FORWARD_SPEND = "WaypointTrader" -- "WaypointTrader" | "CraftAndConsume" | "None"
+
+Config.WAYPOINT_TRADER = {
+	spawnEveryDepth = 600, -- one trader roughly this often, deeper = better stock
+	stockScalesWithDepth = true,
+}
+
 return Config

@@ -12,3 +12,4 @@ build/
 # Editor
 .DS_Store
 Thumbs.db
+build.rbxl
