@@ -11,20 +11,58 @@ Full design lives in the Obsidian vault. Build order lives in
 
 ## First-time setup
 
+Each dev does this once, on their own machine.
+
 ```powershell
-aftman install          # pins rojo, selene, stylua for both devs
+git clone https://github.com/gamblingargentino/expert-octo-winner.git
+cd expert-octo-winner
+aftman install          # rojo, selene, stylua — pinned versions, same for both devs
+rojo plugin install     # installs the Rojo plugin into Studio
 .\build.ps1             # generates place\HuntOrDie.rbxl from src/
-.\serve.ps1             # live-sync; leave running while you work
 ```
 
-Then in Studio: open `place\HuntOrDie.rbxl`, install the Rojo plugin, **Connect**.
-Press Play — output should read `[HuntOrDie] server up`.
+Then every working session:
 
-Code lives in Git. Studio is a viewport onto it.
+```powershell
+.\serve.ps1             # leave running
+```
 
-> `build.ps1` regenerates the place file and will refuse to overwrite an
-> existing one, because once Dev A puts geometry in there it is the only copy.
-> After that point use `serve.ps1` only.
+In Studio: open `place\HuntOrDie.rbxl` → Plugins tab → **Rojo** → **Connect**
+(defaults to `localhost:34872`). Press Play — output should read
+`[HuntOrDie] server up`.
+
+Edit a file in VS Code, save, and it appears in Studio instantly.
+
+> [!NOTE]
+> **Rojo does not sync the two of you to each other.** It only bridges your own
+> disk to your own Studio. Git is what connects the two devs. You each run your
+> own `rojo serve` against your own clone — nothing is shared over the network.
+
+### The place file, and why only one of you owns it
+
+`place/HuntOrDie.rbxl` is gitignored, so a fresh clone has no place file —
+`build.ps1` generates one from `src/`. That is all Dev B ever needs: a throwaway
+shell to run code in, regenerable any time.
+
+Dev A's copy is different. Once world geometry goes into it, that file is the
+only copy in existence and cannot be merged or regenerated. So:
+
+- **Dev B** — regenerate freely with `build.ps1`. Never ask for Dev A's file.
+- **Dev A** — never run `build.ps1` again after adding geometry (it refuses, but
+  don't rely on that). Back the file up somewhere that isn't this repo.
+
+### Playtesting together
+
+Two ways, in order of how often you will want them:
+
+1. **Solo, in Studio** — Test tab → Players: 2 → **Start**. Runs a local server
+   with two clients. Covers almost everything: cargo races, death, spectate.
+2. **Together, over the internet** — Dev A publishes the place to Roblox
+   (File → Publish to Roblox), both join from the client. Needed for real
+   latency and real network conditions. Do this before the gate, not after.
+
+For option 2 only Dev A's place matters, which is another reason geometry lives
+with one person.
 
 ## Checks
 
